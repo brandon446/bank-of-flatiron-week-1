@@ -1,23 +1,37 @@
-import logo from './logo.svg';
+import React, {useState, useEffect} from 'react';
 import './App.css';
+import Header from './Components/Header';
+import Form from './Components/Form';
+import Table from './Components/Table';
+import Search from './Components/Search';
 
 function App() {
+
+ const [list, setList] = useState([])
+ const [input, setInput] = useState('')
+
+ useEffect(function(){
+  fetch("  http://localhost:3001/transactions?q=" + input)
+  .then(response => response.json())
+      .then(data => setList(data))
+
+      
+},[input])
+
+
+
+function handleSearch(e){
+  
+  setInput(e.target.value)
+}
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      
+     <Header />
+     < Search handleSearch = {handleSearch}/>
+     <Form list = {list}  setList = {setList} />
+     <Table list = {list}  />
     </div>
   );
 }
